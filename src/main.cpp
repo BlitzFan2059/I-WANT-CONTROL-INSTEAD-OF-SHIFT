@@ -184,7 +184,9 @@ std::string current_top_panel = "Macros";
 int main() {
     // Initialize Raylib window
     InitWindow(500, 400, "3443's Roblox Utilities");
+#ifdef _WIN32
     SetWindowState(FLAG_WINDOW_UNDECORATED);
+#endif
     SetTargetFPS(60);
 
     // Initialize rlImGui
