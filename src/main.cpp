@@ -41,6 +41,8 @@
 #include "rlImGui.h"
 #include "LoadTextures.hpp"
 #include "SettingsHandler.hpp"
+#include "GlobalBasicSettings.hpp"
+
 
 #include <iostream>
 #include <string>
@@ -63,6 +65,9 @@ int main() {
         InitWindow(500, 400, "3443's Roblox Utilities");
     } else InitWindow(300, 150, "3443's Roblox Utilities");
     
+    screen_width = GetScreenWidth();
+    screen_height = GetScreenHeight();
+
     // Default values
 #ifdef _WIN32
     roblox_process_name = "RobloxPlayerBeta.exe";
@@ -70,7 +75,7 @@ int main() {
     SetWindowIcon(icon);                           // Sets taskbar + title bar icon
     UnloadImage(icon);                             // Free image memory
 #else
-    roblox_process_name = "sober";
+    roblox_process_name = "sober.real";
 #endif
     
     kb_layout = 0;
@@ -84,6 +89,9 @@ int main() {
     initUI();
     LoadAllSprites();
 
+    // For globalbasicsettings
+    if (GlobalBasicSettingsFile == "empty") setGBSFileDirectory();
+    
     //Initlializes the ctrl object for netctrl
     g_ctrl = &ctrl;
 
@@ -187,7 +195,6 @@ int main() {
             );
         }
 #endif
-
         BeginDrawing();
         ClearBackground(DARKGRAY);
         

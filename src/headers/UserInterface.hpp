@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "imgui.h"
 
 inline std::string current_option = "0";
 inline std::string current_top_panel = "Macros";
@@ -11,3 +12,4 @@ inline float rainbowValue = 0.6f;
 
 void initUI();
 void UpdateUI();
+void applyThemeColor(const ImVec4& color);

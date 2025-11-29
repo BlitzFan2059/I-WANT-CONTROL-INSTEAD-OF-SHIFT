@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <algorithm>
 
 #include "Globals.hpp"
 #include "inpctrl.hpp"
@@ -29,6 +31,7 @@
 #include <windows.h>
 #include <shellapi.h>
 #include <sddl.h>
+#include <tlhelp32.h>
 
 // Restore original names after Windows header is included
 #undef Rectangle
@@ -39,8 +42,9 @@
 #undef LoadImage
 
 #endif
-#else
 #include <unistd.h>
+#include <pwd.h>
+#include <sys/types.h>
 #endif
 
 
@@ -149,7 +153,110 @@ inline bool TryElevate(const char* password)
 #endif
 }
 
+inline bool isProcessRunning(const std::string& nameSubstring) {
+#ifdef _WIN32
+    bool found = false;
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if (hSnapshot == INVALID_HANDLE_VALUE) return false;
 
+    PROCESSENTRY32 pe;
+    pe.dwSize = sizeof(PROCESSENTRY32);
+
+    if (Process32First(hSnapshot, &pe)) {
+        do {
+            std::string exeName = pe.szExeFile;
+            std::transform(exeName.begin(), exeName.end(), exeName.begin(), ::tolower);
+
+            std::string lowerName = nameSubstring;
+            std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
+
+            if (exeName.find(lowerName) != std::string::npos) {
+                found = true;
+                break;
+            }
+        } while (Process32Next(hSnapshot, &pe));
+    }
+
+    CloseHandle(hSnapshot);
+    return found;
+#else
+    FILE* pipe = popen("pgrep -a ''", "r");
+    if (!pipe) return false;
+
+    char buffer[256];
+    bool found = false;
+    std::string lowerName = nameSubstring;
+    std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
+
+    while (fgets(buffer, sizeof(buffer), pipe)) {
+        std::string line(buffer);
+        std::transform(line.begin(), line.end(), line.begin(), ::tolower);
+        if (line.find(lowerName) != std::string::npos) {
+            found = true;
+            break;
+        }
+    }
+
+    pclose(pipe);
+    return found;
+#endif
+}
+
+inline void restartRoblox() {
+#ifdef _WIN32
+    // Windows version
+    system("taskkill /IM RobloxPlayerBeta.exe /F"); // forcibly close
+    
+    std::string url;
+    bool hasPlaceId = strlen(placeIdBuffer) > 0;
+    bool hasInstanceId = strlen(instanceIdBuffer) > 0;
+    
+    if (hasPlaceId) {
+        url = "roblox://experiences/start?placeId=" + std::string(placeIdBuffer);
+        if (hasInstanceId) {
+            url += "&gameInstanceId=" + std::string(instanceIdBuffer);
+        }
+    } else {
+        url = "roblox://";
+    }
+    
+    ShellExecuteA(nullptr, "open", url.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
+#else
+    const char* normalUser = getenv("SUDO_USER");
+    if (!normalUser) normalUser = getenv("USER"); // fallback if not using sudo
+    
+    if (normalUser) {
+        // Kill the actual Sober process
+        std::string killCmd = "sudo -i -u ";
+        killCmd += normalUser;
+        killCmd += " bash -c 'killall -9 sober.real >/dev/null 2>&1'";
+        std::system(killCmd.c_str());
+        
+        std::string url;
+        bool hasPlaceId = strlen(placeIdBuffer) > 0;
+        bool hasInstanceId = strlen(instanceIdBuffer) > 0;
+        
+        if (hasPlaceId) {
+            url = "roblox://experiences/start?placeId=" + std::string(placeIdBuffer);
+            if (hasInstanceId) {
+                url += "&gameInstanceId=" + std::string(instanceIdBuffer);
+            }
+            
+            // Launch with xdg-open
+            std::string launchCmd = "sudo -i -u ";
+            launchCmd += normalUser;
+            launchCmd += " bash -c 'xdg-open \"" + url + "\" &'";
+            std::system(launchCmd.c_str());
+        } else {
+            // Restart Sober normally (no place ID)
+            std::string runCmd = "sudo -i -u ";
+            runCmd += normalUser;
+            runCmd += " bash -c 'flatpak run org.vinegarhq.Sober &'";
+            std::system(runCmd.c_str());
+        }
+    }
+#endif
+}
 
 
 inline void log(std::string text) {
@@ -246,5 +353,11 @@ inline unsigned short GetIDFromCodeName(std::string CodeName) {
         return 10;
     } else if (CodeName == "NHC-Roof") {
         return 11;
+    } else if (CodeName == "HHJ") {
+        return 12;
+    } else if (CodeName == "Gear-Desync") {
+        return 13;
+    } else if (CodeName == "Full-Gear-Desync") {
+        return 14;
     } else return 2000;
 }

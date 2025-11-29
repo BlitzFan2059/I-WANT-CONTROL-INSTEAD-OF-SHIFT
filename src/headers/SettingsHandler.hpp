@@ -33,6 +33,11 @@ inline namespace SettingsHandler {
         j["roblox_fps"] = roblox_fps;
         j["kb_layout"] = kb_layout;
 
+        //-- Saves state
+        for (int i = 0; i < 12; i++) {
+            j["enabled"][std::to_string(i)] = enabled[i];
+        }
+
         //-- Theme
         j["themeColor"] = {
             {"r", themeColor.x},
@@ -88,6 +93,16 @@ inline namespace SettingsHandler {
         if (j.contains("kb_layout"))
             kb_layout = j["kb_layout"];
 
+        // -- Load enabled array
+        if (j.contains("enabled")) {
+            for (int i = 0; i < 12; i++) {
+                std::string idx = std::to_string(i);
+                if (j["enabled"].contains(idx)) {
+                    enabled[i] = j["enabled"][idx].get<bool>();
+                }
+            }
+        }
+        
         if (j.contains("themeColor")) {
             themeColor = ImVec4(
                 j["themeColor"]["r"].get<float>(),

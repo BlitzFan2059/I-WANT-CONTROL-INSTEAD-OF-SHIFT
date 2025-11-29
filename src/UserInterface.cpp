@@ -8,6 +8,7 @@
 #include "Helper.hpp"
 #include "LagSwitch.hpp"
 #include "Speedglitch.hpp"
+#include "GlobalBasicSettings.hpp"
 
 ImVec4 orange = ImVec4(1.0f, 0.55f, 0.1f, 1.0f);
 
@@ -92,10 +93,14 @@ void UpdateUI() {
         themeColor = HSVtoRGB(rainbowHue, rainbowSaturation, rainbowValue);
         applyThemeColor(themeColor);
     }
+    float w = std::max(screen_width, 1.0f);
+    float h = std::max(screen_height, 1.0f);
 
-    // Fullscreen window
-    ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(ImVec2(GetScreenWidth(), GetScreenHeight()));
+    ImGuiIO& io = ImGui::GetIO();
+    io.DisplaySize = ImVec2(w, h);
+    ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(w, h), ImGuiCond_Always);
+
     ImGui::Begin("3443's Roblox Utilities", nullptr,
                 ImGuiWindowFlags_NoTitleBar |
                 ImGuiWindowFlags_NoResize |
@@ -179,6 +184,10 @@ void UpdateUI() {
                     CodeName = "Disable-Head-Collision";
                 } else if (std::string(label) == "NHC Roof Clip") {
                     CodeName = "NHC-Roof";
+                } else if (std::string(label) == "Helicopter High Jump") {
+                    CodeName = "HHJ";
+                } else if (std::string(label) == "Full Gear Desync") {
+                    CodeName = "Full-Gear-Desync";
                 }
 
                 // Determine if this option is enabled
@@ -249,6 +258,8 @@ void UpdateUI() {
             DrawOptionButton("Spam key");
             DrawOptionButton("Disable head collision");
             DrawOptionButton("NHC Roof Clip");
+            DrawOptionButton("Helicopter High Jump");
+            DrawOptionButton("Full Gear Desync");
 
             ImGui::EndChild();
 
@@ -355,6 +366,42 @@ void UpdateUI() {
 
                 rlImGuiImageSize(&LoadedTextures[5], imageWidth, 140);
                 ImGui::TextWrapped("After this, it's pretty straightforward, just trigger the macro! This glitch can be rng, but you'll get it.\nAlso make sure you have head collision disabled!!!");
+            } else if (current_option == "Helicopter High Jump") {
+                ImGui::Text("Helicopter High Jump information:");
+                ImGui::Separator();
+                ImGui::TextWrapped("This macro allows you to jump VERY high if used proprely (20+ STUDS)");
+                ImGui::TextWrapped("I won't go too much into details, look at this video to figure out how it works:");
+                ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x); // Fill horizontally
+
+                static char url[] = "https://www.youtube.com/watch?v=5rmeivUegHc";
+                ImGui::InputText("##url", url, sizeof(url), ImGuiInputTextFlags_ReadOnly);
+
+                ImGui::PopItemWidth();
+
+                ImGui::Spacing();
+                ImGui::TextColored(orange,"Also, if you're willing to use this,\nPLEASE look in the 'Roblox specific'\nsection in settings.");
+            } else if (current_option == "Full Gear Desync") {
+                ImGui::Text("Full Gear Desync information:");
+                ImGui::Separator();
+                ImGui::TextWrapped("This macro allows you desynchronize an item from you (the client) and the server, allowing for some pretty cool glitches.");
+                ImGui::TextWrapped("To do this, please have make sure you have 2 gears in item slot 1 and 2 UNEQUIPPED like below.\n");
+                float windowWidth = ImGui::GetContentRegionAvail().x;
+                float imageWidth = 110.0f;
+                float offset = (windowWidth - imageWidth) * 0.5f;
+
+                if (offset > 0.0f)
+                    ImGui::SetCursorPosX(ImGui::GetCursorPosX() + offset);
+
+                rlImGuiImageSize(&LoadedTextures[6], imageWidth, 58);
+                ImGui::TextWrapped("Look at this video for more details on what you can do with this glitch");
+                ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x); // Fill horizontally
+
+                static char url[] = "https://www.youtube.com/watch?v=ntK8Yus2odM";
+                ImGui::InputText("##url", url, sizeof(url), ImGuiInputTextFlags_ReadOnly);
+
+                ImGui::PopItemWidth();
+
+                ImGui::Spacing();
             } else {
                 ImGui::Text("Welcome to 3443's roblox utilities!");
                 ImGui::Separator();
@@ -393,10 +440,8 @@ void UpdateUI() {
             
             ImGui::EndTabItem();
         }
+        renderRobloxSettingsWindow();
 
-        //if (ImGui::BeginTabItem("Subplace joiner")) {
-          //  ImGui::EndTabItem();
-        //}
 
         if (ImGui::BeginTabItem("Settings")) {
             // ==== GLOBAL SETTINGS ====
@@ -418,21 +463,6 @@ void UpdateUI() {
             ImGui::Checkbox("Window always on top", &windowOnTop);
 #ifdef _WIN32
             ImGui::Checkbox("Decorated window (title bar) (100% DPI recommended)", &decorated_window);
-
-            // Disable the "Resizable window" checkbox if decorated_window is false
-            if (!decorated_window)
-                ImGui::BeginDisabled();
-
-            ImGui::Checkbox("Resizable window (100% DPI recommended)", &resizable_window);
-
-            // Add explanation text on the same line
-            if (!decorated_window)
-            {
-                ImGui::SameLine();
-                ImGui::TextDisabled("(requires decorated window)");
-                ImGui::EndDisabled();
-            }
-
 #endif      
             ImGui::PopItemWidth();
 

@@ -229,3 +229,33 @@ inline void NHCRoofClip() {
         log("NHC-Roof clip finished");
     }
 }
+
+
+inline void FullGearDesync() {
+    bool key_pressed = input.isKeyPressed(Binds["Full-Gear-Desync"]);
+    if (key_pressed && !events[14]) {
+        events[14] = true;
+        log("Full Gear Desync triggered");
+        input.pressKey(CrossInput::Key::Num2);
+        std::this_thread::sleep_for(std::chrono::milliseconds(40));
+        input.pressKey(CrossInput::Key::Backspace);
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        input.pressKey(CrossInput::Key::Num1);
+        std::this_thread::sleep_for(std::chrono::milliseconds(40));
+        input.holdKey(CrossInput::Key::W);
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+        procctrl::suspend_processes_by_name(roblox_process_name);
+        input.pressKey(CrossInput::Key::Num1, 30);
+        std::this_thread::sleep_for(std::chrono::milliseconds(30));
+        input.pressKey(CrossInput::Key::Num1, 30);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        procctrl::resume_processes_by_name(roblox_process_name);
+        input.releaseKey(CrossInput::Key::W);
+        std::this_thread::sleep_for(std::chrono::milliseconds(40));
+        input.pressKey(CrossInput::Key::Num1);
+        std::this_thread::sleep_for(std::chrono::milliseconds(40));
+        input.pressKey(CrossInput::Key::Backspace);
+        events[14] = false;
+        log("Full Gear Desync finished");
+    }
+}

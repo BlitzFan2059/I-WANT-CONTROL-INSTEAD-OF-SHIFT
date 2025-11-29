@@ -7,14 +7,16 @@ SRCS = $(shell find src -name "*.cpp") \
        include/imgui/imgui_draw.cpp \
        include/imgui/imgui_tables.cpp \
        include/imgui/imgui_widgets.cpp \
-       include/rlImGui/rlImGui.cpp
+       include/rlImGui/rlImGui.cpp \
+	   include/pugixml/pugixml.cpp
 
 # Include directories
 INCLUDES = -I./include \
            -I./src/headers/obstructive \
            -I./src/headers \
            -I./include/imgui \
-           -I./include/rlImGui
+           -I./include/rlImGui \
+		   -I./include/pugixml
 
 # -------------------------------------------------------------------
 # Linux build
