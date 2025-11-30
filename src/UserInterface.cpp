@@ -460,13 +460,14 @@ void UpdateUI() {
             }
             ImGui::SameLine();
             ImGui::Text("%s",("Current: " + std::string(input.getKeyName(ChatKey))).c_str());
-            ImGui::Separator();
-                        ImGui::SameLine();
+            
+            ImGui::SameLine();
             if (ImGui::Button("Bind Shift lock key")) {
                 BindVariable(&ShiftKeyy);
             }
             ImGui::SameLine();
             ImGui::Text("%s",("Current: " + std::string(input.getKeyName(ShiftKeyy))).c_str());
+            ImGui::Separator();
             ImGui::Checkbox("Window always on top", &windowOnTop);
 #ifdef _WIN32
             ImGui::Checkbox("Decorated window (title bar) (100% DPI recommended)", &decorated_window);
