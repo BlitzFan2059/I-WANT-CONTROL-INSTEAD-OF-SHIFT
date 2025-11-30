@@ -8,8 +8,6 @@
 #include "inpctrl.hpp"
 
 #ifdef _WIN32
-#ifndef NETCTRL_WINDOWS_INCLUDED
-#define NETCTRL_WINDOWS_INCLUDED
 #define WIN32_LEAN_AND_MEAN
 
 #ifndef NOMINMAX
@@ -41,7 +39,7 @@
 #undef DrawTextEx
 #undef LoadImage
 
-#endif
+#else
 #include <unistd.h>
 #include <pwd.h>
 #include <sys/types.h>
@@ -273,7 +271,7 @@ inline void RunSilent(const std::string &cmd) {
 }
 
 inline void typeSlashAzerty() {
-    input.holdKey(CrossInput::Key::LShift);
+    input.holdKey(ShiftKeyy);
     std::this_thread::sleep_for(std::chrono::milliseconds(25));
     
     input.holdKey(CrossInput::Key::Dot);
@@ -282,7 +280,7 @@ inline void typeSlashAzerty() {
     input.releaseKey(CrossInput::Key::Dot);
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
     
-    input.releaseKey(CrossInput::Key::LShift);
+    input.releaseKey(ShiftKeyy);
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
 }
 

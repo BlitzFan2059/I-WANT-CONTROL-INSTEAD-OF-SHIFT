@@ -43,12 +43,12 @@ inline void laughClip() {
         procctrl::resume_processes_by_name(roblox_process_name);
 
         input.holdKey(CrossInput::Key::Space);
-        input.holdKey(CrossInput::Key::LShift);
+        input.holdKey(ShiftKeyy);
 
         std::this_thread::sleep_for(std::chrono::milliseconds(35));
 
         input.releaseKey(CrossInput::Key::Space);
-        input.releaseKey(CrossInput::Key::LShift);
+        input.releaseKey(ShiftKeyy);
         
         std::this_thread::sleep_for(std::chrono::milliseconds(40));
 
@@ -71,9 +71,9 @@ inline void extendedDanceClip() {
         if (kb_layout == 1) {
             typeSlashAzerty();
             input.typeText("e dqnce");
-            input.holdKey(CrossInput::Key::LShift);
+            input.holdKey(ShiftKeyy);
             input.pressKey(CrossInput::Key::Num2);
-            input.releaseKey(CrossInput::Key::LShift);
+            input.releaseKey(ShiftKeyy);
             std::this_thread::sleep_for(std::chrono::milliseconds(30));
             input.pressKey(CrossInput::Key::Enter);
         } else {
@@ -90,7 +90,7 @@ inline void extendedDanceClip() {
 
         procctrl::resume_processes_by_name(roblox_process_name);
 
-        input.pressKey(CrossInput::Key::LShift);
+        input.pressKey(ShiftKeyy);
 
         std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
@@ -129,7 +129,7 @@ inline void BuckeyClip() {
 
         // Wait 9ms → Shift down while Space+S are still held
         std::this_thread::sleep_for(std::chrono::milliseconds(9));
-        input.holdKey(CrossInput::Key::LShift);
+        input.holdKey(ShiftKeyy);
 
         // Release Space after 74ms
         std::this_thread::sleep_for(std::chrono::milliseconds(74));
@@ -137,7 +137,7 @@ inline void BuckeyClip() {
 
         // Release Shift after 56ms
         std::this_thread::sleep_for(std::chrono::milliseconds(56));
-        input.releaseKey(CrossInput::Key::LShift);
+        input.releaseKey(ShiftKeyy);
 
         // Release S after 82ms
         std::this_thread::sleep_for(std::chrono::milliseconds(82));
@@ -179,17 +179,17 @@ inline void DisableHeadCollision() {
         input.pressKey(CrossInput::Key::Enter);
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
 
-        input.holdKey(CrossInput::Key::LShift);
+        input.holdKey(ShiftKeyy);
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
-        input.releaseKey(CrossInput::Key::LShift);
+        input.releaseKey(ShiftKeyy);
 
         input.holdKey(CrossInput::Key::Space);
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
         input.releaseKey(CrossInput::Key::Space);
 
-        input.holdKey(CrossInput::Key::LShift);
+        input.holdKey(ShiftKeyy);
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
-        input.releaseKey(CrossInput::Key::LShift);
+        input.releaseKey(ShiftKeyy);
         
         events[10] = false;
         log("Disable-Head-Collision finished");

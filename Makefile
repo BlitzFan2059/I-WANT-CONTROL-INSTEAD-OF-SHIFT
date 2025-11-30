@@ -45,7 +45,7 @@ $(LINUX_OBJ_DIR)/%.o: %.cpp
 WIN_OBJ_DIR = out/win64
 WIN_TARGET = build/win64/utility.exe
 WIN_CXX = x86_64-w64-mingw32-g++
-WIN_CXXFLAGS = -std=c++17 -Wall -Wextra $(INCLUDES) -I./include/raylibWin64/include
+WIN_CXXFLAGS = -std=c++17 -Wall -Wextra -I./include/raylibWin64/include $(INCLUDES)
 WIN_LDFLAGS = -L./include/raylibWin64/lib -static -lraylib -lopengl32 -lgdi32 -lwinmm \
               -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -mwindows -lshell32 -lpthread -Wl,-Bdynamic
 WIN_ICON = resources/icon.o

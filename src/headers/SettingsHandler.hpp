@@ -24,6 +24,7 @@ inline namespace SettingsHandler {
         }
 
         j["ChatKey"] = static_cast<unsigned int>(ChatKey);
+        j["ShiftKeyy"] = static_cast<unsigned int>(ShiftKeyy);
         j["SpamKey"] = static_cast<unsigned int>(SpamKey);
 
         //-- Settings tab
@@ -74,6 +75,8 @@ inline namespace SettingsHandler {
 
         if (j.contains("ChatKey"))
             ChatKey = static_cast<CrossInput::Key>(j["ChatKey"].get<unsigned int>());
+        if (j.contains("ShiftKeyy"))
+            ShiftKeyy = static_cast<CrossInput::Key>(j["ShiftKeyy"].get<unsigned int>());
 
         if (j.contains("SpamKey"))
             SpamKey = static_cast<CrossInput::Key>(j["SpamKey"].get<unsigned int>());

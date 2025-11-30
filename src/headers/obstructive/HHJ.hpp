@@ -104,11 +104,11 @@ inline void helicopterHighJump() {
         
         // Hold shiftlock (or zoom in if configured)
         if (!globalzoomin) {
-            input.holdKey(CrossInput::Key::LShift);
+            input.holdKey(ShiftKeyy);
         } else {
             // Note: Mouse wheel simulation would go here
             // For now using shift as fallback
-            input.holdKey(CrossInput::Key::LShift);
+            input.holdKey(ShiftKeyy);
         }
         
         // Delay 2: Wait before spinning
@@ -123,7 +123,7 @@ inline void helicopterHighJump() {
         
         // Release shiftlock
         if (!globalzoomin) {
-            input.releaseKey(CrossInput::Key::LShift);
+            input.releaseKey(ShiftKeyy);
         }
         
         // Continue spinning for HHJ length

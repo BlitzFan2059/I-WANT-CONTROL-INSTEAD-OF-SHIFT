@@ -53,6 +53,7 @@ inline bool cam_fix_active = false;
 inline ImVec4 themeColor = ImVec4(0.8f, 0.1f, 0.1f, 1.0f); // Default red theme
 inline std::string roblox_process_name;
 inline CrossInput::Key ChatKey = CrossInput::Key::Slash;
+inline CrossInput::Key ShiftKeyy = CrossInput::Key::LShift;
 
 // Roblox tab
 inline char placeIdBuffer[32] = "";  // buffer for Place ID input
