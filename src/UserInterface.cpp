@@ -596,7 +596,7 @@ void UpdateUI() {
             }
 
             ImGui::Separator();
-            ImGui::Text("Made with love <3 -3443");
+            ImGui::Text("Made with +aura");
 
             ImGui::EndTabItem();
         }

@@ -62,8 +62,8 @@ int main() {
 
     is_elevated = isElevated();
     if (is_elevated) {
-        InitWindow(500, 400, "3443's Roblox Utilities");
-    } else InitWindow(300, 150, "3443's Roblox Utilities");
+        InitWindow(700, 400, "3443's Roblox Utilities");
+    } else InitWindow(500, 150, "3443's Roblox Utilities");
     
     screen_width = GetScreenWidth();
     screen_height = GetScreenHeight();
